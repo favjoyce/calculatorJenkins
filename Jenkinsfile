@@ -21,5 +21,17 @@ pipeline {
                 bat 'mvn test'
             }
         }
+
+        stage('Coverage') {
+            steps {
+                bat 'mvn jacoco:report'
+                publishHTML (target: [
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'JaCoCo Report'
+                ])
+                bat 'mvn jacoco:check'
+            }
+        }
     }
 }
