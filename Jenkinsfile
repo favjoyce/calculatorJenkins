@@ -34,16 +34,15 @@ pipeline {
             }
         }
 
-        stage('Static Code Analysis') {
-            steps {
-                bat 'mvn checkstyle:checkstyle'
-                publishHTML (target: [
-                    reportDir: 'target/site',
-                    reportFiles: 'checkstyle.html',
-                    reportName: 'Checkstyle Report'
-                ])
-                bat 'mvn checkstyle:check'
-            }
-        }
+stage('Static Code Analysis') {
+    steps {
+        bat 'mvn checkstyle:checkstyle'
+        publishHTML (target: [
+            reportDir: 'target/reports',
+            reportFiles: 'checkstyle.html',
+            reportName: 'Checkstyle Report'
+        ])
+        bat 'mvn checkstyle:check'
     }
+}    }
 }
