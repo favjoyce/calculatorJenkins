@@ -33,5 +33,17 @@ pipeline {
                 bat 'mvn jacoco:check'
             }
         }
+
+        stage('Static Code Analysis') {
+            steps {
+                bat 'mvn checkstyle:checkstyle'
+                publishHTML (target: [
+                    reportDir: 'target/site',
+                    reportFiles: 'checkstyle.html',
+                    reportName: 'Checkstyle Report'
+                ])
+                bat 'mvn checkstyle:check'
+            }
+        }
     }
 }
