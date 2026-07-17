@@ -45,4 +45,6 @@ stage('Static Code Analysis') {
         bat 'mvn checkstyle:check'
     }
 }    }
+
+
 }
