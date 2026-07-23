@@ -8,7 +8,7 @@ pipeline {
         maven 'Maven'
     }
     stages {
-        stage('Checkout' {
+        stage('Checkout') {
             steps {
                 git url: 'https://github.com/favjoyce/calculatorJenkins', branch: 'main'
             }
@@ -16,7 +16,8 @@ pipeline {
 
         stage('Compile') {
             steps {
-                bat 'mvn clean compile'
+                // Forces a build failure to test the email notification
+                bat 'mvn non-existent-goal'
             }
         }
 
