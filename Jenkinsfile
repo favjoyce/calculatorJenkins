@@ -16,8 +16,7 @@ pipeline {
 
         stage('Compile') {
             steps {
-                // Forces a build failure to test the email notification
-                bat 'mvn non-existent-goal'
+                bat 'mvn clean compile'
             }
         }
 
