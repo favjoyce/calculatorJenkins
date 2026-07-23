@@ -38,17 +38,43 @@ pipeline {
             }
         }
 
-stage('Static Code Analysis') {
-    steps {
-        bat 'mvn checkstyle:checkstyle'
-        publishHTML (target: [
-            reportDir: 'target/reports',
-            reportFiles: 'checkstyle.html',
-            reportName: 'Checkstyle Report'
-        ])
-        bat 'mvn checkstyle:check'
+        stage('Static Code Analysis') {
+            steps {
+                bat 'mvn checkstyle:checkstyle'
+                publishHTML (target: [
+                    reportDir: 'target/reports',
+                    reportFiles: 'checkstyle.html',
+                    reportName: 'Checkstyle Report'
+                ])
+                bat 'mvn checkstyle:check'
+            }
+        }
     }
-}    }
 
-
+    post {
+        always {
+            echo 'Pipeline execution finished.'
+        }
+        success {
+            script {
+                emailext (
+                    subject: "[SUCCESS] Jenkins: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                    body: '''${SCRIPT, template="groovy-html.template"}''',
+                    to: 'anyiafavour15@gmail.com',
+                    mimeType: 'text/html'
+                )
+            }
+        }
+        failure {
+            script {
+                emailext (
+                    subject: "[FAILED] Jenkins: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                    body: '''${SCRIPT, template="groovy-html.template"}''',
+                    to: 'anyiafavour15@gmail.com',
+                    mimeType: 'text/html',
+                    attachLog: true
+                )
+            }
+        }
+    }
 }
