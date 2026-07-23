@@ -8,7 +8,7 @@ pipeline {
         maven 'Maven'
     }
     stages {
-        stage('Checkout') {
+        stage('Checkout' {
             steps {
                 git url: 'https://github.com/favjoyce/calculatorJenkins', branch: 'main'
             }
